@@ -1,0 +1,55 @@
+name: EveryKit
+options:
+  bundleIdPrefix: local.everykit
+  deploymentTarget:
+    macOS: "13.0"
+  groupSortPosition: top
+
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    MACOSX_DEPLOYMENT_TARGET: "13.0"
+    GENERATE_INFOPLIST_FILE: NO
+    INFOPLIST_FILE: Info.plist
+    PRODUCT_NAME: EveryKit
+    PRODUCT_BUNDLE_IDENTIFIER: local.everykit.EveryKit
+    SUPPORTED_PLATFORMS: macosx
+    SDKROOT: macosx
+    CODE_SIGN_IDENTITY: "-"
+    CODE_SIGNING_ALLOWED: NO
+    ENABLE_HARDENED_RUNTIME: NO
+    ONLY_ACTIVE_ARCH: YES
+
+targets:
+  EveryKit:
+    type: application
+    platform: macOS
+    sources:
+      - path: EveryKit
+    settings:
+      base:
+        PRODUCT_NAME: EveryKit
+        PRODUCT_BUNDLE_IDENTIFIER: local.everykit.EveryKit
+        INFOPLIST_FILE: Info.plist
+        LSUIElement: YES
+
+schemes:
+  EveryKit:
+    build:
+      targets:
+        EveryKit:
+          - run
+          - test
+          - profile
+          - analyze
+          - archive
+    run:
+      config: Debug
+    test:
+      config: Debug
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release

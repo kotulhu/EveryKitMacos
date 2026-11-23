@@ -1,0 +1,36 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Xcode user state
+xcuserdata/
+*.xcuserdatad
+*.xcscheme.lock
+*.xccheckout
+*.xcscmblueprint
+
+# Build output
+build/
+DerivedData/
+*.derivedData
+*.ipa
+*.dSYM.zip
+*.dSYM/
+*.hmap
+*.a
+*.o
+*.swiftmodule
+*.swiftdoc
+
+# SwiftPM / Xcode generated
+.swiftpm/
+Packages/
+.build/
+.project.xcworkspace/
+*.xcworkspace/xcuserdata/
+
+# Local helpers
+*.log
+*.tmp
