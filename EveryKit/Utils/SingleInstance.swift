@@ -33,12 +33,16 @@ final class SingleInstanceLock {
 }
 
 enum SingleInstance {
+    /// Подавляет диалог подтверждения для дубликата, который завершается автоматически.
+    static var isTerminatingDuplicate = false
+
     static func activateRunningInstanceAndTerminate() {
         let identifier = Bundle.main.bundleIdentifier ?? "local.everykit.EveryKit"
         let currentPID = ProcessInfo.processInfo.processIdentifier
         NSRunningApplication.runningApplications(withBundleIdentifier: identifier)
             .first { $0.processIdentifier != currentPID }?
             .activate(options: [.activateAllWindows])
+        isTerminatingDuplicate = true
         NSApp.terminate(nil)
     }
 }
