@@ -118,10 +118,9 @@ struct ImageToolView: View {
         panel.canChooseDirectories = false
         panel.allowsMultipleSelection = false
         panel.allowedContentTypes = [.image]
-        panel.begin { response in
-            guard response == .OK, let url = panel.url else { return }
-            load(from: url)
-        }
+        present(panel)
+        guard panel.runModal() == .OK, let url = panel.url else { return }
+        load(from: url)
     }
 
     private func load(from url: URL) {
@@ -195,15 +194,19 @@ struct ImageToolView: View {
         let panel = NSSavePanel()
         panel.nameFieldStringValue = "everykit.\(format.fileExtension)"
         panel.allowedContentTypes = [format.contentType]
-        panel.begin { response in
-            guard response == .OK, let url = panel.url else { return }
-            do {
-                try converted.write(to: url)
-                status = "Сохранено: \(url.lastPathComponent)"
-            } catch {
-                fail("Ошибка сохранения: \(error.localizedDescription)")
-            }
+        present(panel)
+        guard panel.runModal() == .OK, let url = panel.url else { return }
+        do {
+            try converted.write(to: url)
+            status = "Сохранено: \(url.lastPathComponent)"
+        } catch {
+            fail("Ошибка сохранения: \(error.localizedDescription)")
         }
+    }
+
+    private func present(_ panel: NSPanel) {
+        NSApp.activate(ignoringOtherApps: true)
+        panel.level = NSWindow.Level(rawValue: NSWindow.Level.statusBar.rawValue + 1)
     }
 
     private func fail(_ message: String) {

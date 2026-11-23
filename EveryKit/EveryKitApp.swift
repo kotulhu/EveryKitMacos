@@ -43,8 +43,19 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         alert.addButton(withTitle: "Отмена")
         alert.addButton(withTitle: "Выйти")
 
-        let response = alert.runModal()
-        return response == .alertSecondButtonReturn ? .terminateNow : .terminateCancel
+        let confirm = { (response: NSApplication.ModalResponse) in
+            response == .alertSecondButtonReturn
+        }
+
+        if let window = NSApp.keyWindow ?? NSApp.windows.first {
+            alert.beginSheetModal(for: window) { response in
+                NSApp.reply(toApplicationShouldTerminate: confirm(response))
+            }
+            return .terminateLater
+        }
+
+        alert.window.level = NSWindow.Level(rawValue: NSWindow.Level.statusBar.rawValue + 1)
+        return confirm(alert.runModal()) ? .terminateNow : .terminateCancel
     }
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
